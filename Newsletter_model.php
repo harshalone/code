@@ -17,13 +17,25 @@ class Newsletter_model extends CI_Model {
         $this->load->database();
         $this->load->helper('string');
     }  
-    // all blog functions ======================
+	
+    // all newsletter model functions ======================
     public function add_list($data) {
 
         return $this->db->insert('newsletter_list', $data);
     }
     
-    
+    public function add_campaign($data) {
+
+        return $this->db->insert('newsletter_campaign', $data);
+    }
+	
+    public function update_newsletter_campaign($data, $campaign_id){
+    	
+    	$this->db->where('campaignid', $campaign_id);  
+	    $update   = $this->db->update('newsletter_campaign', $data); 
+        return true;
+    }
+	
     /* 
     public function get_all_articles($limit =10, $page = 0) { 
     	$offset = $page * $limit;
