@@ -75,18 +75,20 @@ class Newsletter_model extends CI_Model {
         return $this->db->get()->result();
     }
 	
-	public function user_to_list($userid, $list_id, $status) {
-		$data = array(
-				'user_id' => $userid,
-				'list_id' => $list_id,
-				'status'  => $status,
-				'subscribe_date_time' => $date_time,
-				'unsubscribe_date_time' => $date_time
-		); 
+	public function user_to_list($data) {
+		
         return $this->db->insert('list_user', $data);
     }
 	
-	public function get_user_of_list($limit =20, $page = 0) { 
+	public function is_user_in_list($list_id, $user_id){
+		
+		$this->db->from('list_user');   
+		$this->db->where('list_id', $list_id);		
+		$this->db->where('user_id', $user_id);	
+        return $this->db->get()->row();
+	}
+	
+	public function get_users_of_list($limit =20, $page = 0) { 
     	$offset = $page * $limit;
         $this->db->from('list_user'); 
 		$this->db->join('users', 'userd.id = list_user.user_id');
