@@ -19,12 +19,36 @@ class Newsletter_model extends CI_Model {
     }  
 	
     // all newsletter model functions ======================
+
+	
     public function add_list($data) {
 
         return $this->db->insert('newsletter_list', $data);
     }
+	
+	public function update_list($data, $list_id) {
+
+        $this->db->where('list_id', $list_id);  
+	    $update   = $this->db->update('newsletter_list', $data); 
+        return true;
+    }
+	
+	public function delete_list($list_id) {
+
+        $this->db->where('list_id', $list_id);   
+		$this->db->delete('newsletter_list');
+        return true;
+    }
+	
+	public function get_list($limit =10, $page = 0) { 
+    	$offset = $page * $limit;
+        $this->db->from('newsletter_list'); 
+        $this->db->order_by("listid", "desc");
+        $this->db->limit($limit, $offset);
+        return $this->db->get()->result();
+    }
     
-    public function add_campaign($data) {
+    public function add_newsletter_campaign($data) {
 
         return $this->db->insert('newsletter_campaign', $data);
     }
@@ -36,66 +60,38 @@ class Newsletter_model extends CI_Model {
         return true;
     }
 	
-    /* 
-    public function get_all_articles($limit =10, $page = 0) { 
-    	$offset = $page * $limit;
-        $this->db->from('articles'); 
-        $this->db->order_by("articleid", "desc");
-        $this->db->limit($limit, $offset);
-        return $this->db->get()->result();
-    } 
-    
-    public function get_new_applications($limit =10, $page = 0) { 
-    	$offset = $page * $limit;
-        $this->db->from('articles'); 
-        $this->db->where('status',1);
-        $this->db->where('publish',0);
-        $this->db->order_by("articleid", "desc");
-        $this->db->limit($limit, $offset);
-        return $this->db->get()->result();
-    }
-    
-    public function get_published_articles($limit =10, $page = 0) { 
-    	$offset = $page * $limit;
-        $this->db->from('articles'); 
-        $this->db->where('status',1);
-        $this->db->where('publish',1);
-        $this->db->order_by("articleid", "desc");
-        $this->db->limit($limit, $offset);
-        return $this->db->get()->result();
-    } 
-    
-    
-    //get article details from article id
-    public function get_article($postid) {  
-		$this->db->where('articleid',$postid);   
-		$query = $this->db->get('articles');
-		$row   = $query->row();
-		return $row;
-    }
-    //get article details from article uid
-    public function get_article_from_uid($postid) {  
-		$this->db->where('articleuid',$postid);   
-		$query = $this->db->get('earticles');
-		$row   = $query->row();
-		return $row;
-    }
-    
-    public function update($data, $articleid){
-    	
-    	$this->db->where('articleid', $articleid);  
-	    $update   = $this->db->update('articles', $data); 
+	public function delete_newsletter_campaign($campaign_id) {
+
+        $this->db->where('campaignid', $campaign_id);   
+		$this->db->delete('newsletter_campaign');
         return true;
     }
-    
-    public function get_articles($userid, $limit =10, $page = 0) { 
+	
+	public function get_newsletter_campaign($limit =10, $page = 0) { 
     	$offset = $page * $limit;
-        $this->db->from('articles'); 
-        $this->db->where('user_id', $userid);
-        $this->db->order_by("articleid", "desc");
+        $this->db->from('newsletter_campaign'); 
+        $this->db->order_by("campaignid", "desc");
         $this->db->limit($limit, $offset);
         return $this->db->get()->result();
     }
-    */
-
+	
+	public function user_to_list($userid, $list_id, $status) {
+		$data = array(
+				'user_id' => $userid,
+				'list_id' => $list_id,
+				'status'  => $status,
+				'subscribe_date_time' => $date_time,
+				'unsubscribe_date_time' => $date_time
+		); 
+        return $this->db->insert('list_user', $data);
+    }
+	
+	public function get_user_of_list($limit =20, $page = 0) { 
+    	$offset = $page * $limit;
+        $this->db->from('list_user'); 
+		$this->db->join('users', 'userd.id = list_user.user_id');
+        $this->db->limit($limit, $offset);
+        return $this->db->get()->result();
+    }
+	 
 } 
