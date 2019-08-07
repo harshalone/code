@@ -7,6 +7,12 @@
   
   <div class="container">
   <div class="clearfix">&nbsp;</div>
+  
+  <div class="row">
+    <div class="col">
+            
+			
+			
   <!-- card here -->
   <div class="card">
   <div class="card-body">
@@ -14,11 +20,12 @@
 	 <form>
 	  <div class="form-group">
 		<label for="formGroupExampleInput">Subject</label>
-		<input type="text" class="form-control form-control-lg" id="formGroupExampleInput" placeholder="Welcome to ">
+		<input id="form_subject" maxlength="60" type="text" class="form-control form-control-lg" id="formGroupExampleInput" placeholder="Welcome to ">
+		<small>Longer subject lines dont get attention</small>
 	  </div>
 	  <div class="form-group">
 		<label for="formGroupExampleInput2">Message</label>
-		<textarea class="form-control" id="exampleFormControlTextarea1" rows="8"></textarea>
+		<textarea id="form_message" class="form-control" id="exampleFormControlTextarea1" rows="8"></textarea>
 
 	  </div>
 	  <a href="select_list.html" role="button" class="btn btn-primary btn-lg btn-block">Next</a>
@@ -29,6 +36,31 @@
  </div>
  <!-- card here -->
  
+			
+			
+			
+    </div>
+    <div class="col">
+            
+			
+			
+  <!-- card here -->
+  <div class="card h-100">
+  <div class="card-body">
+     
+	  <strong>Subject:</strong> <span id="subject"></span>
+	  <hr/>
+	  <p id="message" class="card-text bg-light" ></p>
+	  
+  </div>
+ </div>
+ <!-- card here -->
+ 
+			
+			
+    </div> 
+  </div>
+
     
 	  
   </div>
@@ -41,4 +73,28 @@
    
   </body>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+$(document).ready(function(){
+    $("#form_subject").keyup(function(){
+        // Getting the current value of textarea
+        var currentText = $(this).val();
+        
+        // Setting the Div content
+        $("#subject").text(currentText);
+    });
+	
+	$("#form_message").keyup(function(){
+        // Getting the current value of textarea
+        var currentText = $(this).val();
+         
+        // Setting the Div content
+        //$("#message").text(currentText);
+		$('#message').html(currentText.replace(/\n/g, "<br />"));
+    });
+	
+	
+	
+});
+</script>
 </html>
