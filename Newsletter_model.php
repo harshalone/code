@@ -53,9 +53,9 @@ class Newsletter_model extends CI_Model {
         return $this->db->insert('newsletter_campaign', $data);
     }
 	
-    public function update_newsletter_campaign($data, $campaign_id){
+    public function update_newsletter_campaign($data, $campaign_u_id){
     	
-    	$this->db->where('campaignid', $campaign_id);  
+    	$this->db->where('campaignuid', $campaign_u_id);  
 	    $update   = $this->db->update('newsletter_campaign', $data); 
         return true;
     }
